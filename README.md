@@ -1,2 +1,2 @@
-# programowanie_aplikacji_internetowych
-
+# Programowanie aplikacji internetowych
+Zadanie 1 - kalkulator kredytowy
