@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Kalkulator kredytowy</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <h1 class="mb-5">Kalkulator kredytowy</h1>
+                <form action="calculator.php" method="post">
+                    <label class="form-label" for="kwota">Kwota kredytu w zł:</label>
+                    <input class="form-control" type="number" id="kwota" name="kwotaKredytu"
+                        placeholder="Wpisz kwotę kredytu" required><br>
+                    <label class="form-label" for="lata">Czas trwania kredytu:</label>
+                    <input class="form-control" type="number" id="lata" name="czasTrwania"
+                        placeholder="Wpisz czas trwania kredytu" required><br>
+                    <label class="form-label" for="oprocentowanie">Oprocentowanie:</label>
+                    <input class="form-control" type="number" id="oprocentowanie" name="oprocentowanieRoczne"
+                        placeholder="Wpisz oprocentowanie" required><br>
+                    <input class="btn btn-primary mt-3" type="submit" value="Oblicz miesięczną ratę">
+                </form>
+            </div>
+        </div>
+    </div>
+    <?php
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            echo "<div class='container col-md-4 mt-5 alert alert-danger'>$error</div>";
+        }
+    }
+
+    if (isset($rataMiesieczna)) {
+        echo "<div class='container col-md-4 mt-5 alert alert-success text-center'>Miesięczna rata będzie wynosić: <strong>"
+            . number_format((float)$rataMiesieczna, 2, ',', ' ') . "</strong> zł </div>";
+    }
+    ?>
+</body>
+
+</html>
