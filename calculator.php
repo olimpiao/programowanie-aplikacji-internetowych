@@ -1,4 +1,29 @@
 <?php
+// 1. Ręczny autoloader dla Smarty 5
+spl_autoload_register(function ($class) {
+    $prefix = 'Smarty\\';
+    // Ścieżka od pliku calculator.php do folderu src wewnątrz smarty
+    $base_dir = __DIR__ . '/smarty/src/';
+
+    $len = strlen($prefix);
+    if (strncmp($prefix, $class, $len) !== 0) {
+        return;
+    }
+
+    $relative_class = substr($class, $len);
+    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+
+    if (file_exists($file)) {
+        require $file;
+    }
+});
+
+// 2. Inicjalizacja Smarty
+$smarty = new \Smarty\Smarty();
+
+// 3. Konfiguracja ścieżek
+$smarty->setTemplateDir(__DIR__ . '/templates/');
+$smarty->setCompileDir(__DIR__ . '/templates_c/');
 
 $errors = array();
 $kwotaKredytu = null;
@@ -60,4 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 //3. Wygenerowanie odpowiedzi
-include "templates/calculator_view.php";
+$smarty->assign('errors', $errors);
+$smarty->assign(
+    'rata',
+    number_format((float)$rataMiesieczna, 2, ',', ' ')
+);
+$smarty->display('calculator.tpl');
