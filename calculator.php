@@ -50,12 +50,14 @@ function validate(&$kwotaKredytu, &$czasTrwania, &$oprocentowanieRoczne, &$error
 }
 
 //2. Wykonanie akcji (działania)
-if (validate($kwotaKredytu, $czasTrwania, $oprocentowanieRoczne, $errors)) {
-    $liczbaRat = $czasTrwania * 12;
-    $oprocentowanieMiesieczne = $oprocentowanieRoczne / 12 / 100;
-    $rataMiesieczna = ($kwotaKredytu * $oprocentowanieMiesieczne * (1 + $oprocentowanieMiesieczne) ** $liczbaRat) /
-        ((1 + $oprocentowanieMiesieczne) ** $liczbaRat - 1);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (validate($kwotaKredytu, $czasTrwania, $oprocentowanieRoczne, $errors)) {
+        $liczbaRat = $czasTrwania * 12;
+        $oprocentowanieMiesieczne = $oprocentowanieRoczne / 12 / 100;
+        $rataMiesieczna = ($kwotaKredytu * $oprocentowanieMiesieczne * (1 + $oprocentowanieMiesieczne) ** $liczbaRat) /
+            ((1 + $oprocentowanieMiesieczne) ** $liczbaRat - 1);
+    }
 }
 
 //3. Wygenerowanie odpowiedzi
-include "calculator_view.php";
+include "templates/calculator_view.php";
